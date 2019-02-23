@@ -74,6 +74,12 @@ script:
           make test
       fi
 
+after_failure:
+  - echo $TRAVIS_OS_NAME
+  - ls -ls
+  - cat fort.10
+  - echo Your build FAILED
+
 #======================================================================
 # Notifications
 #======================================================================
