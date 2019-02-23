@@ -8,6 +8,7 @@ run_this.o : run_this.f90
 
 test :
 	./a.out
+	./tester.csh
 
 clean :
 	rm -f a.out run_this.o
