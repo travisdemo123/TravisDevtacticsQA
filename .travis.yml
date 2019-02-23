@@ -1,0 +1,85 @@
+#======================================================================
+# Project settings
+#======================================================================
+# Only build master.
+branches:
+  only:
+      - master
+
+language: fortran
+
+#======================================================================
+# Environment
+#======================================================================
+
+# Code is Fortran.
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-6
+      - gfortran-6
+      - g++-6
+      - lcov
+
+#======================================================================
+# Build Matrix
+#======================================================================
+matrix:
+   include:
+     - os: linux
+       compiler: gcc
+       sudo: false
+       dist: trusty
+     - os: osx
+       compiler: gcc
+       osx_image: xcode9.4
+
+#======================================================================
+# Building
+#======================================================================
+before_install:
+  - |
+      if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then
+          brew install gcc@7 || true;
+          brew link --overwrite gcc@7;
+      fi
+  - |
+      if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
+          pip install --user cpp-coveralls
+      fi
+
+before_script:
+  - |
+      if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then
+          export CC="clang" FC="gfortran-7" CXX="clang++" ;
+      fi
+  - |
+      if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
+          export CC="gcc-6" FC="gfortran-6" CXX="g++-6" ;
+      fi
+#  - export CC="gcc-6" FC="gfortran-6" CXX="g++-6" ;
+
+script:
+  - make
+  - |
+      if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
+          export LD_LIBRARY_PATH=${PWD}/schemes/check/src/check-build
+          make test
+      fi
+  - |
+      if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then
+          export DYLD_LIBRARY_PATH=${PWD}/schemes/check/src/check-build
+          make test
+      fi
+
+#======================================================================
+# Notifications
+#======================================================================
+notifications:
+  email:
+    recipients: gill@ucar.edu
+    on_success: always
+    on_failure: always
+
