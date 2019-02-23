@@ -75,6 +75,7 @@ script:
       fi
 
 after_failure:
+  - sleep 1
   - echo $TRAVIS_OS_NAME
   - ls -ls
   - cat fort.10
