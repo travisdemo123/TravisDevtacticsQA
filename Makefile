@@ -10,11 +10,9 @@ test :
 	./a.out
 	ls -ls
 	whereis sh
-	whereis csh
 	ls -ls /bin/sh
-	ls -ls /bin/csh
 	cat fort.10
-	./tester.csh
+	./tester.sh
 
 clean :
 	rm -f a.out run_this.o

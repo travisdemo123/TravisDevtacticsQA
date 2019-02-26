@@ -81,17 +81,17 @@ script:
 
 after_failure:
   - sleep 1
-  - echo $TRAVIS_OS_NAME
+  - echo "$TRAVIS_OS_NAME"
   - ls -ls
   - cat fort.10
-  - echo Your build FAILED
+  - echo "Your build FAILED"
 
 after_success:
   - sleep 1
-  - echo $TRAVIS_OS_NAME
+  - echo "$TRAVIS_OS_NAME"
   - ls -ls
   - cat fort.10
-  - echo Your build WORKED
+  - echo "Your build WORKED"
 
 #======================================================================
 # Notifications
