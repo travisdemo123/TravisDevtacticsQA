@@ -61,7 +61,7 @@ before_script:
   - |
       if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
           export CC="gcc-6" FC="gfortran-6" CXX="g++-6" 
-          echo "TRAVIS OS OSX gfortran"
+          echo "TRAVIS OS LINUX gfortran"
       fi
 
 script:
@@ -85,6 +85,13 @@ after_failure:
   - ls -ls
   - cat fort.10
   - echo Your build FAILED
+
+after_success:
+  - sleep 1
+  - echo $TRAVIS_OS_NAME
+  - ls -ls
+  - cat fort.10
+  - echo Your build WORKED
 
 #======================================================================
 # Notifications

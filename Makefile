@@ -9,8 +9,10 @@ run_this.o : run_this.f90
 test :
 	./a.out
 	ls -ls
-	ls -ls /bin/csh
+	whereis sh
+	whereis csh
 	ls -ls /bin/sh
+	ls -ls /bin/csh
 	cat fort.10
 	./tester.csh
 
