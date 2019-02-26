@@ -42,24 +42,27 @@ matrix:
 before_install:
   - |
       if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then
-          brew install gcc@7 || true;
-          brew link --overwrite gcc@7;
+          brew install gcc@7 || true
+          brew link --overwrite gcc@7
+          echo "TRAVIS OS OSX BREW"
       fi
   - |
       if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
           pip install --user cpp-coveralls
+          echo "TRAVIS OS LINUX PIP"
       fi
 
 before_script:
   - |
       if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then
-          export CC="clang" FC="gfortran-7" CXX="clang++" ;
+          export CC="clang" FC="gfortran-7" CXX="clang++" 
+          echo "TRAVIS OS OSX clang"
       fi
   - |
       if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
-          export CC="gcc-6" FC="gfortran-6" CXX="g++-6" ;
+          export CC="gcc-6" FC="gfortran-6" CXX="g++-6" 
+          echo "TRAVIS OS OSX gfortran"
       fi
-#  - export CC="gcc-6" FC="gfortran-6" CXX="g++-6" ;
 
 script:
   - make
@@ -67,11 +70,13 @@ script:
       if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
           export LD_LIBRARY_PATH=${PWD}/schemes/check/src/check-build
           make test
+          echo "TRAVIS OS LINUX make test"
       fi
   - |
       if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then
           export DYLD_LIBRARY_PATH=${PWD}/schemes/check/src/check-build
           make test
+          echo "TRAVIS OS OSX make test"
       fi
 
 after_failure:
