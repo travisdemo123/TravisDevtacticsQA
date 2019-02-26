@@ -8,6 +8,10 @@ run_this.o : run_this.f90
 
 test :
 	./a.out
+	ls -ls
+	ls -ls /bin/csh
+	ls -ls /bin/sh
+	cat fort.10
 	./tester.csh
 
 clean :
