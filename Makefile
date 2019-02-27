@@ -16,3 +16,4 @@ test :
 
 clean :
 	rm -f a.out run_this.o
+	rm fort.10
