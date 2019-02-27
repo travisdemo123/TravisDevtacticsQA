@@ -68,6 +68,7 @@ script:
   - date
   - docker rmi wrf_regtest
   - date
+  - env | grep TRAVIS_
 
 #======================================================================
 # Notifications
