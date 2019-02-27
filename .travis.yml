@@ -59,10 +59,12 @@ script:
   - docker ps -a
   - date
   - docker exec test_001 ./script.csh BUILD CLEAN 34 1 em_real -d
-  - OK=$?
-  - echo "Return code from docker is $OK"
+  - date
+  - docker exec test_001 ls -ls WRF/main
   - date
   - docker stop test_001
+  - date
+  - docker rm test_001
   - date
   - docker rmi wrf_regtest
   - date
