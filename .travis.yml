@@ -12,7 +12,6 @@ language: fortran
 # Environment
 #======================================================================
 
-# Code is Fortran.
 addons:
   apt:
     sources:
@@ -34,7 +33,7 @@ matrix:
        dist: trusty
 
 #======================================================================
-# Docker, does not work on Mac
+# Docker does not work on Mac
 #======================================================================
 services:
   - docker
@@ -48,7 +47,12 @@ before_install:
           pip install --user cpp-coveralls
       fi
 
+#======================================================================
+# Here are the run steps
+#======================================================================
 script:
+  - date
+  - sed -e 's/_HERE1_/"DAVE START"/' -e 's/_HERE2_/"DAVE END CLONE"/' Dockerfile-template > Dockerfile
   - date
   - docker build -t wrf_regtest .
   - date
