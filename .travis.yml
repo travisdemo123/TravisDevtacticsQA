@@ -66,11 +66,9 @@ script:
   - date
   - docker exec test_001 ls -ls WRF/main
   - date
-  - docker exec -w /wrf/WRF test_001 git log --oneline | head -50
-  - date
   - docker exec test_001 ./script.csh RUN em_real 34 em_real 03DF
   - date
-  - docker exec -w /wrf/WRF/test/em_real test_001 ls -ls 
+  - docker exec test_001 ls -ls WRF/test/em_real
   - date
   - docker stop test_001
   - date
