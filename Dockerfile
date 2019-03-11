@@ -11,9 +11,19 @@ ENV NML_VERSION 4.0.2
 # Set up base OS environment
 #
 RUN yum -y update
-RUN yum -y install file gcc gcc-gfortran gcc-c++ glibc.i686 libgcc.i686 libpng-devel jasper \
+RUN yum -y install scl file gcc gcc-gfortran gcc-c++ glibc.i686 libgcc.i686 libpng-devel jasper \
+  glibc.i686 libgcc.i686 libpng-devel jasper \
   jasper-devel hostname m4 make perl tar bash tcsh time wget which zlib zlib-devel \
-  openssh-clients openssh-server net-tools fontconfig libgfortran libXext libXrender ImageMagick sudo epel-release
+  openssh-clients openssh-server net-tools fontconfig libgfortran libXext libXrender ImageMagick sudo epel-release \
+  git
+#
+# Newer version of GNU compiler, required for WRF 2003 and 2008 Fortran constructs
+#
+RUN yum -y install centos-release-scl \
+ && yum -y install devtoolset-7 \
+ && yum -y install devtoolset-7-gcc devtoolset-7-gcc-gfortran devtoolset-7-gcc-c++ \
+ && scl enable devtoolset-7 bash \
+ && scl enable devtoolset-7 tcsh 
 #
 # now get 3rd party EPEL builds of netcdf and openmpi dependencies
 RUN yum -y install netcdf-openmpi-devel.x86_64 netcdf-fortran-openmpi-devel.x86_64 \
@@ -44,14 +54,14 @@ RUN echo export LDFLAGS="-lm" >> /etc/bashrc \
  && echo export NETCDF=/wrf/netcdf_links >> /etc/bashrc \
  && echo export JASPERINC=/usr/include/jasper/ >> /etc/bashrc \
  && echo export JASPERLIB=/usr/lib64/ >> /etc/bashrc \
- && echo export LD_LIBRARY_PATH="/usr/lib64/openmpi/lib" >> /etc/bashrc \
- && echo export PATH=".:/usr/lib64/openmpi/bin:$PATH" >> /etc/bashrc \
+ && echo export LD_LIBRARY_PATH="/opt/rh/devtoolset-7/root/usr/lib/gcc/x86_64-redhat-linux/7:/usr/lib64/openmpi/lib" >> /etc/bashrc \
+ && echo export PATH=".:/opt/rh/devtoolset-7/root/usr/bin:/usr/lib64/openmpi/bin:$PATH" >> /etc/bashrc \
  && echo setenv LDFLAGS "-lm" >> /etc/csh.cshrc \
  && echo setenv NETCDF "/wrf/netcdf_links" >> /etc/csh.cshrc \
  && echo setenv JASPERINC "/usr/include/jasper/" >> /etc/csh.cshrc \
  && echo setenv JASPERLIB "/usr/lib64/" >> /etc/csh.cshrc \
- && echo setenv LD_LIBRARY_PATH "/usr/lib64/openmpi/lib" >> /etc/csh.cshrc \
- && echo setenv PATH ".:/usr/lib64/openmpi/bin:$PATH" >> /etc/csh.cshrc
+ && echo setenv LD_LIBRARY_PATH "/opt/rh/devtoolset-7/root/usr/lib/gcc/x86_64-redhat-linux/7:/usr/lib64/openmpi/lib" >> /etc/csh.cshrc \
+ && echo setenv PATH ".:/opt/rh/devtoolset-7/root/usr/bin:/usr/lib64/openmpi/bin:$PATH" >> /etc/csh.cshrc
 #
 #
 RUN mkdir /wrf/.ssh ; echo "StrictHostKeyChecking no" > /wrf/.ssh/config

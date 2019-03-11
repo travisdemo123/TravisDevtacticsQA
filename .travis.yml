@@ -68,6 +68,8 @@ script:
       if [[ $OK != 0 ]] ; then
          docker exec test_001 ls -ls WRF/compile.log.em_real.34
          docker exec test_001 cat WRF/compile.log.em_real.34
+         docker exec test_001 gfortran --version
+         docker exec test_001 gcc --version
          date
       else
          date
