@@ -111,8 +111,8 @@ ENV NETCDF_classic 1
   && export JASPERINC=/usr/include/jasper/ \
   && export JASPERLIB=/usr/lib64/ 
 
-ENV LD_LIBRARY_PATH /usr/lib64/openmpi/lib
-ENV PATH  /usr/lib64/openmpi/bin:$PATH
+ENV LD_LIBRARY_PATH /opt/rh/devtoolset-7/root/usr/lib/gcc/x86_64-redhat-linux/7:/usr/lib64/openmpi/lib
+ENV PATH  .:/opt/rh/devtoolset-7/root/usr/bin:/usr/lib64/openmpi/bin:$PATH
 #
 #
 RUN ssh-keygen -f /wrf/.ssh/id_rsa -t rsa -N '' \
