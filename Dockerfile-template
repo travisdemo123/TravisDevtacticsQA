@@ -40,8 +40,8 @@ RUN source /opt/rh/devtoolset-8/enable \
  && cd openmpi-4.0.0 \
  && ./configure --prefix=/usr/local &> /wrf/libs/build_log_openmpi_config \
  && echo dummy printout to keep travis happy openmpi config \
- && make all install | awk 'NR % 1000 == 0' \
- && echo "make all install " \
+ && make all install \
+ && echo "make all install | awk 'NR % 1000 == 0'" \
  && echo "make all install &> /wrf/libs/build_log_openmpi_make" \
  && echo dummy printout to keep travis happy openmpi make \
  && cd / \
