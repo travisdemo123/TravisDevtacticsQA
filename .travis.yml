@@ -62,7 +62,7 @@ script:
   - date
   - docker ps -a
   - date
-  - docker exec test_001 ./script.csh BUILD CLEAN 34 1 em_real J=-j@3
+  - docker exec test_001 ./script.csh BUILD CLEAN 34 1 em_real -d J=-j@3
   - |
       OK=$?
       if [[ $OK != 0 ]] ; then
