@@ -81,17 +81,18 @@ script:
         OK_ideal=$?
         echo DAVE OK_ideal $OK_ideal
       fi 
+  - date
+  - docker exec test_001 ls -ls WRF/main
   - |
-      if [ $OK_wrf -eq 0 -a ( $OK_real -eq 0 -o $OK_nmm -eq 0 -o $OK_ideal -eq 0 ) ] ; then
-         date
-         docker exec test_001 ls -ls WRF/main
+      if [ $OK_wrf -eq 0 ] -a ([ $OK_real -eq 0 ] -o [ $OK_nmm -eq 0 ] -o [ $OK_ideal -eq 0 ]) ; then
          date
          docker exec test_001 ./script.csh RUN em_real 34 em_real 03DF
          date
          docker exec test_001 ls -ls WRF/test/em_real
          date
+         docker exec test_001 ls -ls WRF/wrfoutput
+         date
       else
-         docker exec test_001 ls -ls WRF/main
          docker exec test_001 ls -ls WRF/compile.log.em_real.34
          docker exec test_001 cat WRF/compile.log.em_real.34
          docker exec test_001 gfortran --version
