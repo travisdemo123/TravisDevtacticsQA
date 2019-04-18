@@ -63,8 +63,11 @@ script:
   - docker ps -a
   - date
   - docker exec test_001 ./script.csh BUILD CLEAN 34 1 em_real -d J=-j@3
+  - OK=$?
+  - echo DAVE OK $OK
+  - OK=0
+  - date
   - |
-      OK=$?
       if [[ $OK != 0 ]] ; then
          docker exec test_001 ls -ls WRF/compile.log.em_real.34
          docker exec test_001 cat WRF/compile.log.em_real.34
