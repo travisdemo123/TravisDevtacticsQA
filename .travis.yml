@@ -63,24 +63,39 @@ script:
   - docker ps -a
   - date
   - docker exec test_001 ./script.csh BUILD CLEAN 34 1 em_real -d J=-j@3
-  - OK=$?
-  - echo DAVE OK $OK
-  - OK=0
   - date
+  - OK=0
   - |
-      if [[ $OK != 0 ]] ; then
-         docker exec test_001 ls -ls WRF/compile.log.em_real.34
-         docker exec test_001 cat WRF/compile.log.em_real.34
-         docker exec test_001 gfortran --version
-         docker exec test_001 gcc --version
-         date
-      else
+      if [ $OK -eq 0 ] ; then
+        echo DAVE FILE STATUS
+        docker exec test_001 ls -ls WRF/main/wrf.exe
+        OK_wrf=$?
+        echo DAVE OK_wrf $OK_wrf
+        docker exec test_001 ls -ls WRF/main/real.exe
+        OK_real=$?
+        echo DAVE OK_real $OK_real
+        docker exec test_001 ls -ls WRF/main/real_nmm.exe
+        OK_nmm=$?
+        echo DAVE OK_nmm $OK_nmm
+        docker exec test_001 ls -ls WRF/main/ideal.exe
+        OK_ideal=$?
+        echo DAVE OK_ideal $OK_ideal
+      fi 
+  - |
+      if [ $OK_wrf -eq 0 -a ( $OK_real -eq 0 -o $OK_nmm -eq 0 -o $OK_ideal -eq 0 ) ] ; then
          date
          docker exec test_001 ls -ls WRF/main
          date
          docker exec test_001 ./script.csh RUN em_real 34 em_real 03DF
          date
          docker exec test_001 ls -ls WRF/test/em_real
+         date
+      else
+         docker exec test_001 ls -ls WRF/main
+         docker exec test_001 ls -ls WRF/compile.log.em_real.34
+         docker exec test_001 cat WRF/compile.log.em_real.34
+         docker exec test_001 gfortran --version
+         docker exec test_001 gcc --version
          date
       fi
   - docker stop test_001
