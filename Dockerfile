@@ -39,7 +39,9 @@ RUN source /opt/rh/devtoolset-8/enable \
  && tar -xf openmpi-4.0.0.tar.gz \
  && cd openmpi-4.0.0 \
  && ./configure --prefix=/usr/local &> /wrf/libs/build_log_openmpi_config \
+ && echo dummy printout to keep travis happy openmpi config \
  && make all install &> /wrf/libs/build_log_openmpi_make \
+ && echo dummy printout to keep travis happy openmpi make \
  && cd / \
  && rm -rf /wrf/libs/openmpi/BUILD_DIR
 
@@ -51,7 +53,9 @@ RUN source /opt/rh/devtoolset-8/enable \
  && cd hdf5 \
  && git checkout hdf5-1_10_4 \
  && ./configure --enable-fortran --enable-cxx --prefix=/usr/local/ &> /wrf/libs/build_log_hdf5_config \
+ && echo dummy printout to keep travis happy hdf5 config \
  && make install &> /wrf/libs/build_log_hdf5_make \
+ && echo dummy printout to keep travis happy hdf5 make \
  && rm -rf /wrf/libs/hdf5/BUILD_DIR
 ENV LD_LIBRARY_PATH /usr/local/lib
 
@@ -66,7 +70,9 @@ RUN source /opt/rh/devtoolset-8/enable \
  && tar -xf v4.6.2.tar.gz \
  && cd netcdf-c-4.6.2 \
  && ./configure --prefix=${NETCDF} &> /wrf/libs/build_log_ncc_config \
- && make install &> /wrf/libs/build_log_ncc_make
+ && echo dummy printout to keep travis happy ncc config \
+ && make install &> /wrf/libs/build_log_ncc_make \
+ && echo dummy printout to keep travis happy ncc make
 RUN source /opt/rh/devtoolset-8/enable \
  && env \
  && cd ${NETCDF}/BUILD_DIR \
@@ -74,7 +80,9 @@ RUN source /opt/rh/devtoolset-8/enable \
  && cd netcdf-fortran-4.4.5/ \
  && export LD_LIBRARY_PATH=${NETCDF}/lib:${LD_LIBRARY_PATH} \
  && CPPFLAGS=-I${NETCDF}/include LDFLAGS=-L${NETCDF}/lib ./configure --prefix=${NETCDF} &> /wrf/libs/build_log_ncf_config \
- && make install &> /wrf/libs/build_log_ncf_make
+ && echo dummy printout to keep travis happy ncf config \
+ && make install &> /wrf/libs/build_log_ncf_make \
+ && echo dummy printout to keep travis happy ncf make
 
 RUN mkdir -p /var/run/sshd \
     && ssh-keygen -A \
