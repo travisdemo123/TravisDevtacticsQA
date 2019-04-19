@@ -84,7 +84,7 @@ script:
   - date
   - docker exec test_001 ls -ls WRF/main
   - |
-      if [ $OK_wrf -eq 0 ] -a ([ $OK_real -eq 0 ] -o [ $OK_nmm -eq 0 ] -o [ $OK_ideal -eq 0 ]) ; then
+      if [ $OK_wrf = 0 ] && ([ $OK_real = 0 ] || [ $OK_nmm = 0 ] || [ $OK_ideal = 0 ]) ; then
          date
          docker exec test_001 ./script.csh RUN em_real 34 em_real 03DF
          date
