@@ -93,10 +93,12 @@ script:
          docker exec test_001 ls -ls WRF/wrfoutput
          date
       else
-         docker exec test_001 ls -ls WRF/compile.log.em_real.34
-         docker exec test_001 cat WRF/compile.log.em_real.34
          docker exec test_001 gfortran --version
          docker exec test_001 gcc --version
+         docker exec test_001 ls -ls WRF/main
+         docker exec test_001 ls -ls WRF/compile.log.em_real.34
+         docker exec test_001 grep Error WRF/compile.log.em_real.34
+         docker exec test_001 cat WRF/compile.log.em_real.34
          date
       fi
   - docker stop test_001
