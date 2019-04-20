@@ -67,19 +67,19 @@ script:
   - OK=0
   - |
       if [ $OK -eq 0 ] ; then
-        echo DAVE FILE STATUS
+        echo FILE STATUS
         docker exec test_001 ls -ls WRF/main/wrf.exe
         OK_wrf=$?
-        echo DAVE OK_wrf $OK_wrf
+        echo OK_wrf $OK_wrf
         docker exec test_001 ls -ls WRF/main/real.exe
         OK_real=$?
-        echo DAVE OK_real $OK_real
+        echo OK_real $OK_real
         docker exec test_001 ls -ls WRF/main/real_nmm.exe
         OK_nmm=$?
-        echo DAVE OK_nmm $OK_nmm
+        echo OK_nmm $OK_nmm
         docker exec test_001 ls -ls WRF/main/ideal.exe
         OK_ideal=$?
-        echo DAVE OK_ideal $OK_ideal
+        echo OK_ideal $OK_ideal
       fi 
   - date
   - docker exec test_001 ls -ls WRF/main
@@ -88,9 +88,11 @@ script:
          date
          docker exec test_001 ./script.csh RUN em_real 34 em_real 03DF
          date
+         docker exec test_001 cat WRF/test/em_real/real.print.out
+         date
          docker exec test_001 ls -ls WRF/test/em_real
          date
-         docker exec test_001 ls -ls WRF/wrfoutput
+         docker exec test_001 ls -ls wrfoutput
          date
       else
          docker exec test_001 gfortran --version
