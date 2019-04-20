@@ -62,6 +62,11 @@ script:
   - date
   - docker ps -a
   - date
+  - docker exec test_001 mpirun --version
+  - docker exec test_001 mpirun -np 1 true
+  - docker exec test_001 mpirun -np 2 true
+  - docker exec test_001 mpirun -np 3 true
+  - docker exec test_001 mpirun -np 3 --oversubscribe true
   - docker exec test_001 ./script.csh BUILD CLEAN 34 1 em_real -d J=-j@3
   - date
   - OK=0
