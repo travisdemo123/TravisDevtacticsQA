@@ -62,11 +62,6 @@ script:
   - date
   - docker ps -a
   - date
-  - docker exec test_001 mpirun --version
-  - docker exec test_001 mpirun -np 1 true
-  - docker exec test_001 mpirun -np 2 true
-  - docker exec test_001 mpirun -np 3 true
-  - docker exec test_001 mpirun -np 3 --oversubscribe true
   - docker exec test_001 ./script.csh BUILD CLEAN 34 1 em_real -d J=-j@3
   - date
   - OK=0
@@ -91,7 +86,7 @@ script:
   - |
       if [ $OK_wrf = 0 ] && ([ $OK_real = 0 ] || [ $OK_nmm = 0 ] || [ $OK_ideal = 0 ]) ; then
          date
-         docker exec test_001 ./script.csh RUN em_real 34 em_real 03DF NP=3
+         docker exec test_001 ./script.csh RUN em_real 34 em_real 01 NP=3
          date
          docker exec test_001 cat WRF/test/em_real/real.print.out
          date
