@@ -27,7 +27,11 @@ addons:
 #======================================================================
 matrix:
    include:
-     - os=linux compiler=gcc sudo=false dist=trusty  name=real_s   core=em_real  par=32 nest=1 data_loc=em_real test=07NE proc=1 cenv='WRF_EM_CORE=1'
+     - os: linux
+       compiler: gcc
+       sudo: false
+       dist: trusty
+       env name=real_s   core=em_real  par=32 nest=1 data_loc=em_real test=07NE proc=1 cenv='WRF_EM_CORE=1'
 
 services:
   - docker
