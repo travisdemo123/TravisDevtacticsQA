@@ -1,26 +1,11 @@
 #======================================================================
-# Project settings
+# Which branches are impacted by this
 #======================================================================
-# Only build master.
 branches:
   only:
       - master
-
-language: fortran
-
-#======================================================================
-# Environment
-#======================================================================
-
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - gcc-8
-      - gfortran-8
-      - g++-8
-      - lcov
+      - develop
+      - /^release-v.*$/
 
 #======================================================================
 # Build Matrix
@@ -56,7 +41,7 @@ script:
   - date
   - docker ps -a
   - date
-  - docker exec ${name} ./script.csh BUILD CLEAN ${par} ${nest} ${core} -d J=-j@3 $cenv
+  - docker exec ${name} ./script.csh BUILD CLEAN ${par} ${nest} ${core} -d J=-j@3 ${cenv}
   - date
   - OK=0
   - |
