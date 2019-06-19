@@ -27,14 +27,10 @@ addons:
 #======================================================================
 matrix:
    include:
-     - os: linux
-       compiler: gcc
-       sudo: false
-       dist: trusty
+     - os:linux compiler:gcc sudo:false dist:trusty  name:real_s   core:em_real  par:32 nest:1 data_loc:em_real test:07NE proc:1 cenv:WRF_EM_CORE=1
+     - os:linux compiler:gcc sudo:false dist:trusty  name:real_o   core:em_real  par:33 nest:1 data_loc:em_real test:07NE proc:3 cenv:WRF_EM_CORE=1
+     - os:linux compiler:gcc sudo:false dist:trusty  name:real_m   core:em_real  par:34 nest:1 data_loc:em_real test:07NE proc:3 cenv:WRF_EM_CORE=1
 
-#======================================================================
-# Docker does not work on Mac
-#======================================================================
 services:
   - docker
 
@@ -58,54 +54,54 @@ script:
   - date
   - docker images -a
   - date
-  - docker run -d -t --name test_001 wrf_regtest
+  - docker run -d -t --name ${name} wrf_regtest
   - date
   - docker ps -a
   - date
-  - docker exec test_001 ./script.csh BUILD CLEAN 34 1 em_real -d J=-j@3
+  - docker exec ${name} ./script.csh BUILD CLEAN ${par} ${nest} ${core} -d J=-j@3 $cenv
   - date
   - OK=0
   - |
       if [ $OK -eq 0 ] ; then
         echo FILE STATUS
-        docker exec test_001 ls -ls WRF/main/wrf.exe
+        docker exec ${name} ls -ls WRF/main/wrf.exe
         OK_wrf=$?
         echo OK_wrf $OK_wrf
-        docker exec test_001 ls -ls WRF/main/real.exe
+        docker exec ${name} ls -ls WRF/main/real.exe
         OK_real=$?
         echo OK_real $OK_real
-        docker exec test_001 ls -ls WRF/main/real_nmm.exe
+        docker exec ${name} ls -ls WRF/main/real_nmm.exe
         OK_nmm=$?
         echo OK_nmm $OK_nmm
-        docker exec test_001 ls -ls WRF/main/ideal.exe
+        docker exec ${name} ls -ls WRF/main/ideal.exe
         OK_ideal=$?
         echo OK_ideal $OK_ideal
       fi 
   - date
-  - docker exec test_001 ls -ls WRF/main
+  - docker exec ${name} ls -ls WRF/main
   - |
       if [ $OK_wrf = 0 ] && ([ $OK_real = 0 ] || [ $OK_nmm = 0 ] || [ $OK_ideal = 0 ]) ; then
          date
-         docker exec test_001 ./script.csh RUN em_real 34 em_real 01 NP=3
+         docker exec ${name} ./script.csh RUN ${core} ${par} dat_loc ${test} NP=${proc} OMP_NUM_THREADS=${proc}
          date
-         docker exec test_001 cat WRF/test/em_real/real.print.out
+         docker exec ${name} cat WRF/test/${core}/real.print.out
          date
-         docker exec test_001 ls -ls WRF/test/em_real
+         docker exec ${name} ls -ls WRF/test/${core}
          date
-         docker exec test_001 ls -ls wrfoutput
+         docker exec ${name} ls -ls wrfoutput
          date
       else
-         docker exec test_001 gfortran --version
-         docker exec test_001 gcc --version
-         docker exec test_001 ls -ls WRF/main
-         docker exec test_001 ls -ls WRF/compile.log.em_real.34
-         docker exec test_001 grep Error WRF/compile.log.em_real.34
-         docker exec test_001 cat WRF/compile.log.em_real.34
+         docker exec ${name} gfortran --version
+         docker exec ${name} gcc --version
+         docker exec ${name} ls -ls WRF/main
+         docker exec ${name} ls -ls WRF/compile.log.${data_loc}.${par}
+         docker exec ${name} grep Error WRF/compile.log.${data_loc}.${par}
+         docker exec ${name} cat WRF/compile.log.${data_loc}.${par}
          date
       fi
-  - docker stop test_001
+  - docker stop ${name}
   - date
-  - docker rm test_001
+  - docker rm ${name}
   - date
   - docker rmi wrf_regtest
   - date
