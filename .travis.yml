@@ -12,9 +12,11 @@ branches:
 #======================================================================
 env:
    matrix:
-      - name=real_s   core=em_real  par=32 nest=1 data_loc=em_real test=07NE proc=1 cenv='WRF_EM_CORE=1'
-      - name=real_o   core=em_real  par=33 nest=1 data_loc=em_real test=07NE proc=3 cenv='WRF_EM_CORE=1'
-      - name=real_m   core=em_real  par=34 nest=1 data_loc=em_real test=07NE proc=3 cenv='WRF_EM_CORE=1'
+      - name=real_s   core=em_real  par=32 nest=1 data_loc=em_real  test=07NE proc=1 cenv='WRF_EM_CORE=1'
+      - name=real_o   core=em_real  par=33 nest=1 data_loc=em_real  test=07NE proc=3 cenv='WRF_EM_CORE=1'
+      - name=real_m   core=em_real  par=34 nest=1 data_loc=em_real  test=07NE proc=3 cenv='WRF_EM_CORE=1'
+      - name=nmm_s    core=nmm_real par=32 nest=1 data_loc=nmm_nest test=01   proc=1 cenv='WRF_NMM_CORE=1'
+      - name=nmm_m    core=nmm_real par=34 nest=1 data_loc=nmm_nest test=01   proc=3 cenv='WRF_NMM_CORE=1'
 
 services:
   - docker
