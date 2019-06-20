@@ -66,7 +66,7 @@ script:
   - date
   - docker ps -a
   - date
-  - docker exec ${name} ./script.csh BUILD CLEAN ${par} ${nest} ${core} ${flag} J=-j@3 ${cenv}
+  - travis_wait docker exec ${name} ./script.csh BUILD CLEAN ${par} ${nest} ${core} ${flag} J=-j@3 ${cenv}
   - date
   - OK=0
   - |
