@@ -17,6 +17,8 @@ env:
       - name=real_m   core=em_real        par=34 nest=1 flag='-d'     data_loc=em_real        test=07NE proc=3 cenv='WRF_EM_CORE=1'
       - name=nmm_s    core=nmm_real       par=32 nest=1 flag='-d'     data_loc=nmm_nest       test=01   proc=1 cenv='WRF_NMM_CORE=1'
       - name=nmm_m    core=nmm_real       par=34 nest=1 flag='-d'     data_loc=nmm_nest       test=01   proc=3 cenv='WRF_NMM_CORE=1'
+      - name=chem_s   core=em_real        par=32 nest=1 flag='-d'     data_loc=em_chem        test=1    proc=1 cenv='WRF_CHEM=1'
+      - name=chem_m   core=em_real        par=34 nest=1 flag='-d'     data_loc=em_chem        test=1    proc=3 cenv='WRF_CHEM=1'
       - name=qss_s    core=em_quarter_ss  par=32 nest=1 flag='-d'     data_loc=em_quarter_ss  test=02NE proc=1 cenv='WRF_EM_CORE=1'
       - name=qss_o    core=em_quarter_ss  par=33 nest=1 flag='-d'     data_loc=em_quarter_ss  test=02NE proc=3 cenv='WRF_EM_CORE=1'
       - name=qss_m    core=em_quarter_ss  par=34 nest=1 flag='-d'     data_loc=em_quarter_ss  test=02NE proc=3 cenv='WRF_EM_CORE=1'
@@ -35,9 +37,6 @@ env:
       - name=fire_m   core=em_fire        par=34 nest=1 flag='-d'     data_loc=em_fire        test=01   proc=3 cenv='WRF_EM_CORE=1'
       - name=hill_s   core=em_hill2d_x    par=32 nest=0 flag='-d'     data_loc=em_hill2d_x    test=01   proc=1 cenv='WRF_EM_CORE=1'
 
-#     Chemistry takes too long to build, always errors out of Travis
-#     - name=chem_s   core=em_real        par=32 nest=1 flag='-d'     data_loc=em_chem        test=1    proc=1 cenv='WRF_CHEM=1'
-#     - name=chem_m   core=em_real        par=34 nest=1 flag='-d'     data_loc=em_chem        test=1    proc=3 cenv='WRF_CHEM=1'
 
 services:
   - docker
@@ -101,6 +100,7 @@ script:
       else
          docker exec ${name} gfortran --version
          docker exec ${name} gcc --version
+         docker exec ${name} ls -ls WRF
          docker exec ${name} ls -ls WRF/main
          docker exec ${name} ls -ls WRF/compile.log.${data_loc}.${par}
          docker exec ${name} grep Error WRF/compile.log.${data_loc}.${par}
