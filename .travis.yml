@@ -79,7 +79,7 @@ script:
 #======================================================================
 notifications:
   email:
-    recipients: gill@ucar.edu
+    recipients: indiferencija@gmail.com
     on_success: always
     on_failure: always
 
